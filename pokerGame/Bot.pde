@@ -18,9 +18,12 @@ class Bot{
     hand.dealHand(card);
   }
   
+  public getMoney(){
+    return(money);
+  }
   public int checkOrBet(int betAmount){//Make better with betting
     if(random(2) == 1){
-      return(max(money / 100), betAmount);
+      return(max(money / 100, betAmount));
     }else{
       return(0);
     }
