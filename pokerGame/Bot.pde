@@ -6,6 +6,7 @@ class Bot{
   private int money;
   private Hand hand;
   private int handVal;
+  private int roundsBet = 0;
   //private int[] shownValue; For adding with betting
   
   public Bot(){
@@ -14,16 +15,34 @@ class Bot{
     handVal = 0;
   }
   
-  public dealBot(Card card){
-    hand.dealHand(card);
+  public int ante(int amount){
+    money-= amount;
+  }
+  public void dealBot(int card){
+    Card myCard = new Card(card);
+    hand.dealCard(myCard);
   }
   
-  public getMoney(){
+  public void cashOut(payAmount){
+    roundsBet = 0;
+    money+= payAmount;
+  }
+  
+  public void goBroke(){
+    money == 0;
+  }
+  public int getMoney(){
     return(money);
+  }
+  public int getRoundsBet(){
+    return(roundsBet);
   }
   public int checkOrBet(int betAmount){//Make better with betting
     if(random(2) == 1){
-      return(max(money / 100, betAmount));
+      betAmount-= currBet;
+      int currBet = max(money / 100, betAmount);
+      roundsBet+= currBet;
+      return(currBet);
     }else{
       return(0);
     }

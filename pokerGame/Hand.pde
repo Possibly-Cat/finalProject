@@ -8,7 +8,7 @@ class Hand{
  public Hand(){
    cards = new ArrayList<Card>();
  }
- public dealCard(Card newCard){
+ public void dealCard(Card newCard){
    cards.add(newCard);
  }
  public int numValInHand(int val){
