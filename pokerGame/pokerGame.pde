@@ -1,23 +1,28 @@
-import controlP5.*;
+
 private ArrayList<Bot> players;
 private ArrayList<Bot> activePlayers;
 private Player human = new Player();
 int currBet = 0;
 int pot = 0;
-ControlP5 cp5;
 int[] deck = new int[52];
 
 
 void setup(){
-  for(int x = 0; x < 53; x++){
+  for(int x = 0; x < 52; x++){
     deck[x] = x;
   }
   size(500, 400);
   background(51);
   players = new ArrayList<Bot>();
-  ControlP5 cp5 = new ControlP5(this);
   players.add(human);
   for(int x = 0; x < 5; x++){this.addBot();}
+  //activePlayers = players.clone();
+  deal();
+  deal();
+  deal();
+  deal();
+  deal();
+  players.get(0).getHand().displayHand(20, 20);
 }
 
 void addBot(){
@@ -25,8 +30,8 @@ void addBot(){
   players.add(addMe);
 }
 void deal(){
-  for(Bot player:activePlayers){
-    int index = random(deck.length);
+  for(Bot player:players){//change back to active players
+    int index = round(random(deck.length));
     player.dealBot(deck[index]);
     deck = this.takeFromDeck(index);
   }
@@ -52,18 +57,20 @@ int[] takeFromDeck(int index){
   for(int x = index + 1; x < newDeck.length; x++){
     newDeck[x - 1] = deck[x];
   }
+  return(newDeck);
 }
 void playRound(int anteAmount){
-  activePlayers = players.clone();
+  arrayCopy(players, activePlayers);
   for(Bot player:players){
     if(activePlayers.contains(player)){
       int bet = player.checkOrBet(currBet);
       if(player.getRoundsBet() >= currBet){
         player.ante(bet);
-        currBet = player.getRoundsBet;
+        currBet = player.getRoundsBet();
       } else{
         activePlayers.remove(player);
-        player.checkOut(0);
+        player.cashOut(0);
       }
     }
   }
+}

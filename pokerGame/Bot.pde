@@ -15,21 +15,21 @@ class Bot{
     handVal = 0;
   }
   
-  public int ante(int amount){
+  public void ante(int amount){
     money-= amount;
   }
   public void dealBot(int card){
-    Card myCard = new Card(card);
+    Card myCard = new Card(card, false);
     hand.dealCard(myCard);
   }
   
-  public void cashOut(payAmount){
+  public void cashOut(int payAmount){
     roundsBet = 0;
     money+= payAmount;
   }
   
   public void goBroke(){
-    money == 0;
+    money = 0;
   }
   public int getMoney(){
     return(money);
@@ -38,7 +38,7 @@ class Bot{
     return(roundsBet);
   }
   public int checkOrBet(int betAmount){//Make better with betting
-    if(random(2) == 1){
+    if(random(2) >= 1){
       betAmount-= currBet;
       int currBet = max(money / 100, betAmount);
       roundsBet+= currBet;
@@ -46,5 +46,8 @@ class Bot{
     }else{
       return(0);
     }
+  }
+  public Hand getHand(){
+    return(hand);
   }
 }

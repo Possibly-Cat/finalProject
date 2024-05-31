@@ -18,6 +18,12 @@ class Hand{
    }
    return(retInt);
  }
+ public void displayHand(int startX, int startY){
+   for(Card crd:cards){
+     crd.displayCard(startX, startY);
+     startX+=70;
+   }
+ }
  public int numSuitInHand(String suit){
    int retInt = 0;
    for(int x = 0; x < cards.size(); x++){

@@ -35,6 +35,9 @@ class Card{
   public boolean hidden(){
     return(hide);
   }
+  public void displayCard(int x, int y){
+    image(this.face, x, y, 65, 91);
+  }
 
   public int getVal(){
     return(value);
