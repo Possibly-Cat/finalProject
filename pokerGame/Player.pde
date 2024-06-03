@@ -4,7 +4,7 @@ class Player extends Bot{
  //ControlP5 cp5;
  int Bet_Amount = 0;
  public Player(){
-   super();
+   super("You!");
    //cp5 = new ControlP5(bullshit);
  }
   //@Override

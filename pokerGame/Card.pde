@@ -27,7 +27,8 @@ class Card{
     if(num >= 26 && num < 39){
       suit = "clubs";
       face = loadImage("Poker cards/" + clubNames[num % 13] + ".png");
-    } else{
+    }
+    if(num >= 39){
       suit = "spades";
       face = loadImage("Poker cards/" + spadeNames[num % 13] + ".png");
     }

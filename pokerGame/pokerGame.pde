@@ -1,6 +1,7 @@
 
 private ArrayList<Bot> players;
 private ArrayList<Bot> activePlayers;
+private String[] names = {"Bob", "Jeff", "David", "John", "Hugh Man"};
 private Player human = new Player();
 int currBet = 0;
 int pot = 0;
@@ -8,32 +9,43 @@ int[] deck = new int[52];
 
 
 void setup(){
+  int scale = 1;
   for(int x = 0; x < 52; x++){
     deck[x] = x;
   }
-  size(500, 400);
+  size(1000, 800);
   background(51);
   players = new ArrayList<Bot>();
   players.add(human);
-  for(int x = 0; x < 5; x++){this.addBot();}
-  //activePlayers = players.clone();
-  deal();
-  deal();
-  deal();
-  deal();
-  deal();
-  players.get(0).getHand().displayHand(20, 20);
+  for(int x = 0; x < 5; x++){this.addBot(names[x]);}
+  activePlayers = new ArrayList<Bot>();
+  copyThisTo(players, activePlayers);
+  //deal();
+  //deal();
+  //deal();
+  //drawAll();
+  playRound(50);
 }
 
-void addBot(){
-  Bot addMe = new Bot();
+void addBot(String str){
+  Bot addMe = new Bot(str);
   players.add(addMe);
 }
 void deal(){
   for(Bot player:players){//change back to active players
-    int index = round(random(deck.length));
+    int index = round(random(deck.length - 1));
     player.dealBot(deck[index]);
     deck = this.takeFromDeck(index);
+  }
+}
+
+void drawAll(){
+  int y = 20;
+  for(Bot player:players){
+    text(player.getName(), 0, y + 30);
+    text("$" + player.getMoney(), 0, y + 40);
+    player.getHand().displayHand(60, y);
+    y+= 100;
   }
 }
 
@@ -60,7 +72,11 @@ int[] takeFromDeck(int index){
   return(newDeck);
 }
 void playRound(int anteAmount){
-  arrayCopy(players, activePlayers);
+  Ante(anteAmount);
+  copyThisTo(players, activePlayers);
+  deal();
+  deal();
+  deal();
   for(Bot player:players){
     if(activePlayers.contains(player)){
       int bet = player.checkOrBet(currBet);
@@ -72,5 +88,13 @@ void playRound(int anteAmount){
         player.cashOut(0);
       }
     }
+  }
+  drawAll();
+}
+
+void copyThisTo(ArrayList<Bot> one, ArrayList<Bot> two){
+  two = new ArrayList<Bot>();
+  for(Bot player:one){
+    two.add(player);
   }
 }

@@ -7,12 +7,18 @@ class Bot{
   private Hand hand;
   private int handVal;
   private int roundsBet = 0;
+  private String name;
   //private int[] shownValue; For adding with betting
   
-  public Bot(){
+  public Bot(String newName){
+    name = newName;
     money = 1000;
     hand = new Hand();
     handVal = 0;
+  }
+  
+  public String getName(){
+    return(name);
   }
   
   public void ante(int amount){
