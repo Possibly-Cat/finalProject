@@ -6,7 +6,6 @@ private Player human = new Player();
 int currBet = 0;
 int pot = 0;
 int[] deck = new int[52];
-String currDisplayText = "";
 
 
 void setup(){
@@ -20,7 +19,7 @@ void setup(){
   players.add(human);
   for(int x = 0; x < 5; x++){this.addBot(names[x]);}
   activePlayers = new ArrayList<Bot>();
-  copyThisTo(players, activePlayers);
+  activePlayers = copyThisTo(players);
   //deal();
   //deal();
   //deal();
@@ -32,10 +31,10 @@ void addBot(String str){
   Bot addMe = new Bot(str);
   players.add(addMe);
 }
-void deal(){
-  for(Bot player:players){//change back to active players
+void deal(Boolean bool){
+  for(Bot player:activePlayers){//change back to active players
     int index = round(random(deck.length - 1));
-    player.dealBot(deck[index]);
+    player.dealBot(deck[index], bool);
     deck = this.takeFromDeck(index);
   }
 }
@@ -43,27 +42,43 @@ void deal(){
 void draw(){
   background(51);
   int y = 20;
-  text(currDisplayText, 500, 400);
   for(Bot player:players){
     text(player.getName(), 0, y + 30);
     text("$" + player.getMoney(), 0, y + 40);
-    player.getHand().displayHand(60, y);
+    text(player.getText(), 0, y + 50);
+    player.getHand().displayHand(100, y);
     y+= 100;
   }
-  delay(20);
 }
-void drawManual(){
-  background(51);
-  int y = 20;
-  text(currDisplayText, 500, 400);
+void bet(){
   for(Bot player:players){
-    text(player.getName(), 0, y + 30);
-    text("$" + player.getMoney(), 0, y + 40);
-    player.getHand().displayHand(60, y);
-    y+= 100;
+    if(activePlayers.contains(player)){
+      int bet = player.checkOrBet(currBet);
+      if(player.getRoundsBet() >= currBet){
+        player.ante(bet);
+        currBet = player.getRoundsBet();
+      } else{
+        activePlayers.remove(player);
+        player.cashOut(0);
+      }
+    }
   }
-  delay(20);
+  while(! allCall()){
+    for(Bot player:players){
+    if(activePlayers.contains(player)){
+      int bet = player.checkOrBet(currBet);
+      if(player.getRoundsBet() >= currBet){
+        player.ante(bet);
+        currBet = player.getRoundsBet();
+      } else{
+        activePlayers.remove(player);
+        player.cashOut(0);
+      }
+    }
+  }
+ }   
 }
+  
   
 
 void Ante(int anteAmount){
@@ -90,31 +105,34 @@ int[] takeFromDeck(int index){
 }
 void playRound(int anteAmount){
   Ante(anteAmount);
-  copyThisTo(players, activePlayers);
-  deal();
-  deal();
-  deal();
-  drawManual();
-  for(Bot player:players){
-    if(activePlayers.contains(player)){
-      int bet = player.checkOrBet(currBet);
-      if(player.getRoundsBet() >= currBet){
-        player.ante(bet);
-        currBet = player.getRoundsBet();
-        currDisplayText = player.getName() + " raises to $" + currBet;
-      } else{
-        currDisplayText = player.getName() + " folds";
-        activePlayers.remove(player);
-        player.cashOut(0);
-      }
-    }
-    text(currDisplayText, 500, 400);
-  }
+  activePlayers = copyThisTo(players);
+  deal(true);
+  deal(true);
+  deal(false);
+  bet();
+  delay(500);
+  deal(false);
+  bet();
+  delay(100);
+  deal(false);
+  bet();
+  delay(100);
+  deal(false);
+  bet();
+  delay(100);
+  deal(true);
+  bet();
 }
-
-void copyThisTo(ArrayList<Bot> one, ArrayList<Bot> two){
-  two = new ArrayList<Bot>();
+boolean allCall(){
+  for(Bot player:activePlayers){
+    if(player.getRoundsBet() != currBet){return(false);}
+  }
+  return(true);
+}
+ArrayList<Bot> copyThisTo(ArrayList<Bot> one){
+  ArrayList<Bot> two = new ArrayList<Bot>();
   for(Bot player:one){
     two.add(player);
   }
+  return(two);
 }

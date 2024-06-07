@@ -9,6 +9,7 @@ class Bot{
   private int roundsBet = 0;
   private String name;
   //private int[] shownValue; For adding with betting
+  private String myText;
   
   public Bot(String newName){
     name = newName;
@@ -21,16 +22,24 @@ class Bot{
     return(name);
   }
   
+  public String getText(){
+    return(myText);
+  }
+  
   public void ante(int amount){
     money-= amount;
+    myText = name + " bet $" + roundsBet;
   }
-  public void dealBot(int card){
-    Card myCard = new Card(card, false);
+  public void dealBot(int card, boolean bool){
+    Card myCard = new Card(card, bool);
     hand.dealCard(myCard);
   }
   
   public void cashOut(int payAmount){
     roundsBet = 0;
+    if(payAmount == 0){
+      myText = name + " folds";
+    }
     money+= payAmount;
   }
   

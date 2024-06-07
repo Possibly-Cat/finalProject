@@ -37,7 +37,12 @@ class Card{
     return(hide);
   }
   public void displayCard(int x, int y){
-    image(this.face, x, y, 65, 91);
+    if(hide){
+      PImage loadThis = loadImage("Poker cards/red_joker.png");
+      image(loadThis, x, y, 65, 91);
+    }else{
+      image(this.face, x, y, 65, 91);
+    }
   }
 
   public int getVal(){
