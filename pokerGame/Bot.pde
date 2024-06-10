@@ -3,13 +3,13 @@ class Bot{
   private int queen = 12;
   private int king = 13;
   private int ace = 14;
-  private int money;
+  int money;
   private Hand hand;
   private int handVal;
-  private int roundsBet = 0;
+  int roundsBet = 0;
   private String name;
   //private int[] shownValue; For adding with betting
-  private String myText;
+  private String myText = "";
   
   public Bot(String newName){
     name = newName;

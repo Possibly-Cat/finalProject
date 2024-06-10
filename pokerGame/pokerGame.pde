@@ -3,9 +3,14 @@ private ArrayList<Bot> players;
 private ArrayList<Bot> activePlayers;
 private String[] names = {"Bob", "Jeff", "David", "John", "Hugh Man"};
 private Player human = new Player();
+boolean running = false;
 int currBet = 0;
 int pot = 0;
 int[] deck = new int[52];
+boolean step1 = false;
+boolean step2 = false;
+boolean step3 = false; 
+boolean step4 = false;
 
 
 void setup(){
@@ -24,7 +29,6 @@ void setup(){
   //deal();
   //deal();
   //drawAll();
-  playRound(50);
 }
 
 void addBot(String str){
@@ -40,6 +44,12 @@ void deal(Boolean bool){
 }
 
 void draw(){
+  if(running == false){
+    step1 = false;
+    step2 = false;
+    step3 = false; 
+    step4 = false;
+  }
   background(51);
   int y = 20;
   for(Bot player:players){
@@ -48,6 +58,25 @@ void draw(){
     text(player.getText(), 0, y + 50);
     player.getHand().displayHand(100, y);
     y+= 100;
+  }
+  if(running == false){
+    firstThree(50);
+  }
+  if(step1){
+    step4 = false;
+    nextOne(1);
+  }
+  if(step2){
+    step4 = false;
+    nextOne(2);
+  }
+  if(step3){
+    step3 = false;
+    nextOne(3);
+  }
+  if(step4){
+    step4 = false;
+    nextOne(4);
   }
 }
 void bet(){
@@ -103,26 +132,25 @@ int[] takeFromDeck(int index){
   }
   return(newDeck);
 }
-void playRound(int anteAmount){
+void firstThree(int anteAmount){
+  running = true;
   Ante(anteAmount);
   activePlayers = copyThisTo(players);
   deal(true);
   deal(true);
   deal(false);
   bet();
-  delay(500);
+  step1 = true;
+}
+void nextOne(int num){
+  delay(50);
+  if(num == 1){step2 = true;}
+  if(num == 2){step3 = true;}
+  if(num == 3){step4 = true;}
   deal(false);
-  bet();
-  delay(100);
-  deal(false);
-  bet();
-  delay(100);
-  deal(false);
-  bet();
-  delay(100);
-  deal(true);
   bet();
 }
+  
 boolean allCall(){
   for(Bot player:activePlayers){
     if(player.getRoundsBet() != currBet){return(false);}

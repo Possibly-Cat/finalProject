@@ -2,24 +2,28 @@
 class Player extends Bot{
  //ControlP5Base bullshit;
  //ControlP5 cp5;
- int Bet_Amount = 0;
+ int Bet_Amount = 0;\
+ boolean changinBet = false;
  public Player(){
    super("you");
-   //cp5 = new ControlP5(bullshit);
  }
-  //@Override
-  //public int checkOrBet(int betAmount){//Make player input
-  //  textSize(128);
-  //  text("Bet. A bet less than " + pokerGame.getBet() + " will count as a fold. A bet of zero is otherwise permitted. Press enter when done.", displayWidth/2, displayHeight/2);
-  //  delay(10);
-  //  cp5.addSlider("Bet_Amount")
-  //    .setRange(0, this.getMoney())
-  //    .setValue(0)
-  //    .setPosition(displayWidth/2, displayHeight/2)
-  //    .setSize(100, 10);
-  //  cp5.getController("Bet Amount");
-  //  while(!keyPressed){}
-  //  return(Bet_Amount);
-  //}
+ //@Override
+ //public int checkOrBet(int betAmount){//Make better with betting
+ //   Bet_Amount = 0;
+ //   changinBet = false;
+ //   while(changinBet == false){}
+ //   return(Bet_Amount);
+ // }
+ // void keyPressed(){
+ //   if(key == CODED && changinBet){
+ //       if(keyCode == UP){
+ //         Bet_Amount+= 20;
+ //       } else if(keyCode == DOWN){
+ //         Bet_Amount -= 20;
+ //       } else if(keyCode == SHIFT){
+ //         changinBet = true;}
+ //   }
+ //   if(Bet_Amount < 0){Bet_Amount = 0;}
+ // }
   
 }
