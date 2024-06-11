@@ -11,9 +11,14 @@ boolean step1 = false;
 boolean step2 = false;
 boolean step3 = false; 
 boolean step4 = false;
+boolean step1Now = false;
+boolean step2Now = false;
+boolean step3Now = false; 
+boolean step4Now = false;
 
 
 void setup(){
+  //frameRate(1);
   int scale = 1;
   for(int x = 0; x < 52; x++){
     deck[x] = x;
@@ -45,10 +50,10 @@ void deal(Boolean bool){
 
 void draw(){
   if(running == false){
-    step1 = false;
-    step2 = false;
-    step3 = false; 
-    step4 = false;
+    step1Now = false;
+    step2Now = false;
+    step3Now = false; 
+    step4Now = false;
   }
   background(51);
   int y = 20;
@@ -62,21 +67,41 @@ void draw(){
   if(running == false){
     firstThree(50);
   }
-  if(step1){
-    step4 = false;
+  if(step1Now){
+    step1 = false;
+    step1Now = false;
     nextOne(1);
   }
-  if(step2){
-    step4 = false;
+  if(step2Now){
+    step2 = false;
+    step2Now = false;
     nextOne(2);
   }
-  if(step3){
+  if(step3Now){
+    step3Now = false;
     step3 = false;
     nextOne(3);
   }
-  if(step4){
+  if(step4Now){
+    step4Now = false;
     step4 = false;
     nextOne(4);
+  }
+  if(step1){
+    step1Now = true;
+    delay(10000);
+  }
+  if(step2){
+    step2Now = true;
+    delay(10000);
+  }
+  if(step3){
+    step3Now = true;
+    delay(10000);
+  }
+  if(step4){
+    step4Now = true;
+    delay(10000);
   }
 }
 void bet(){
@@ -143,12 +168,11 @@ void firstThree(int anteAmount){
   step1 = true;
 }
 void nextOne(int num){
-  delay(50);
+  deal(false);
+  bet();
   if(num == 1){step2 = true;}
   if(num == 2){step3 = true;}
   if(num == 3){step4 = true;}
-  deal(false);
-  bet();
 }
   
 boolean allCall(){
