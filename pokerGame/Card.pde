@@ -33,6 +33,9 @@ class Card{
       face = loadImage("Poker cards/" + spadeNames[num % 13] + ".png");
     }
   }
+  public void show(){
+    hide = false;
+  }
   public boolean hidden(){
     return(hide);
   }

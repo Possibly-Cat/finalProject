@@ -17,6 +17,10 @@ class Bot{
     hand = new Hand();
     handVal = 0;
   }
+  public void clear(){
+    hand = new Hand();
+    roundsBet = 0;
+  }
   
   public String getName(){
     return(name);
@@ -53,9 +57,9 @@ class Bot{
     return(roundsBet);
   }
   public int checkOrBet(int betAmount){//Make better with betting
-    if(random(2) >= 1){
+    if(random(100) >= 20){
       betAmount-= currBet;
-      int currBet = max(money / 100, betAmount);
+      int currBet = max(money / 500, betAmount);
       roundsBet+= currBet;
       return(currBet);
     }else{
@@ -64,5 +68,9 @@ class Bot{
   }
   public Hand getHand(){
     return(hand);
+  }
+  public int getScore(){
+    hand.show();
+    return(hand.getGreaterScore());
   }
 }

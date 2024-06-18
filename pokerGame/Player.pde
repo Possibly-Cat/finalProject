@@ -5,7 +5,7 @@ class Player extends Bot{
  int Bet_Amount = 0;\
  boolean changinBet = false;
  public Player(){
-   super("you");
+   super("Roger");
  }
 // @Override
 // public int checkOrBet(int betAmount){//Make better with betting

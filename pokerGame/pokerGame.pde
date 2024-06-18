@@ -11,10 +11,12 @@ boolean step1 = false;
 boolean step2 = false;
 boolean step3 = false; 
 boolean step4 = false;
+boolean step5 = false;
 boolean step1Now = false;
 boolean step2Now = false;
 boolean step3Now = false; 
 boolean step4Now = false;
+boolean step5Now = false;
 
 
 void setup(){
@@ -54,10 +56,22 @@ void draw(){
     step2Now = false;
     step3Now = false; 
     step4Now = false;
+    step5Now = false;
+    step5 = false;
+    activePlayers = copyThisTo(players);
+    deck = new int[52];
+    for(int x = 0; x < 52; x++){
+      deck[x] = x;
+    }
+    pot = 0;
+    currBet = 0;
   }
   background(51);
   int y = 20;
   for(Bot player:players){
+    if(running == false){
+      player.clear();
+    }
     text(player.getName(), 0, y + 30);
     text("$" + player.getMoney(), 0, y + 40);
     text(player.getText(), 0, y + 50);
@@ -70,38 +84,49 @@ void draw(){
   if(step1Now){
     step1 = false;
     step1Now = false;
-    nextOne(1);
+    nextOne(false, 1);
   }
   if(step2Now){
     step2 = false;
     step2Now = false;
-    nextOne(2);
+    nextOne(false, 2);
   }
   if(step3Now){
-    step3Now = false;
     step3 = false;
-    nextOne(3);
+    step3Now = false;
+    nextOne(false, 3);
   }
   if(step4Now){
     step4Now = false;
     step4 = false;
-    nextOne(4);
+    nextOne(true, 4);
   }
+  if(step5Now){
+    running = false;
+  }
+    
   if(step1){
     step1Now = true;
-    delay(10000);
+    delay(5000);
   }
   if(step2){
     step2Now = true;
-    delay(10000);
+    delay(4000);
   }
   if(step3){
     step3Now = true;
-    delay(10000);
+    delay(3000);
   }
   if(step4){
     step4Now = true;
-    delay(10000);
+    delay(6000);
+  }
+  if(step5){
+    noLoop();
+    step5Now = true;
+    winner();
+    delay(5000);
+    loop();
   }
 }
 void bet(){
@@ -132,6 +157,24 @@ void bet(){
   }
  }   
 }
+
+void winner(){
+  int num1 = max(players.get(0).getScore(), players.get(1).getScore(), players.get(2).getScore());
+  int num2 = max(players.get(3).getScore(), players.get(4).getScore(), players.get(5).getScore());
+  int nums = max(num1, num2);
+  int winners = 0;
+  for(Bot player:players){
+    if(player.getScore() == nums){winners++;}
+  }
+  int reward = pot / winners;
+  for(Bot player:players){
+    if(player.getScore() == nums){
+      player.cashOut(reward);
+    }
+  }
+}
+      
+    
   
   
 
@@ -167,12 +210,13 @@ void firstThree(int anteAmount){
   bet();
   step1 = true;
 }
-void nextOne(int num){
-  deal(false);
+void nextOne(boolean hide, int num){
+  deal(hide);
   bet();
   if(num == 1){step2 = true;}
   if(num == 2){step3 = true;}
   if(num == 3){step4 = true;}
+  if(num == 4){step5 = true;}
 }
   
 boolean allCall(){
